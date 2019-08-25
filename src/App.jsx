@@ -5,10 +5,10 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import Container from '@material-ui/core/Container';
 
 import AuthManagerUtil from './utils/AuthManagerUtil';
-import SignupPage from './pages/Login/SignupPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/Login/LoginPage';
 import Header from './components/Layout/Header';
+import SignonPage from './pages/User/SignonPage';
 
 
 
@@ -54,7 +54,7 @@ function App() {
             <PrivateRoute  path="/" exact component={HomePage} />
             <PrivateRoute  path="/home" component={HomePage} />
             <Route path="/login" component={LoginPage} />
-            <Route path="/signup" component={SignupPage} />
+            <Route path="/cadastro" component={SignonPage} />
             {/*
             <Route component={NotFound} /> */}
           </Switch>

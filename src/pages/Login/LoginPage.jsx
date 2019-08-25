@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { LoginService } from '../../services/LoginService'; 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -11,7 +10,8 @@ import LoadDialog from '../../commons/Loads/LoadDialog';
 import { Typography } from '@material-ui/core';
 import { validateEmail } from '../../helpers/EmailHelper'
 import AuthManagerUtil from '../../utils/AuthManagerUtil';
-
+import LoginService from '../../services/LoginService';
+import UserManagerUtil from '../../utils/UserManagerUtil';
 
 const styles = theme => ({
     textField:{
@@ -44,6 +44,7 @@ class LoginPage extends Component {
            helperTextPassword: '',
            password:''
         }
+        this.LoginService = new LoginService();
       }
     
     
@@ -75,19 +76,42 @@ class LoginPage extends Component {
     };
 
     login = () => {
-        if(this.validEmail()){
+        if(this.validEmail()) {
             this.setState({ load: true });
-            LoginService(this.state.email, this.state.password).then(res => {
+            this.LoginService.doSignInWithEmailAndPassword(this.state.email, this.state.password).then(result => {
+                AuthManagerUtil.setAuthSession(result.credential.accessToken);
+                AuthManagerUtil.setUserSession(result.user);
                 this.setState({ load: false});
-                AuthManagerUtil.setAuthSession(res.data.user);
                 this.props.history.push('home');
-                this.setState({ showError: true,  helperTextEmail: 'Login inválido'});
+                this.setState({ showError: false,  helperTextEmail: ''});
             }).catch( error => {
                 this.setState({ load: false});
+                this.setState({ showError: true,  helperTextEmail: 'Login inválido'});
             });
         }
        
     };
+
+    signupGoogle = () => {
+        this.LoginService.signGoogle().then( result =>{
+            AuthManagerUtil.setAuthSession(result.credential.accessToken);
+            AuthManagerUtil.setUserSession(result.user);
+            this.props.history.push('home');
+        }).catch( error => {
+            this.setState({ showError: true,  helperTextEmail: 'Login inválido'});
+             /*var errorCode = error.code;
+             var errorMessage = error.message;
+             // The email of the user's account used.
+             var email = error.email;
+             // The firebase.auth.AuthCredential type that was used.
+             var credential = error.credential;*/
+             
+        });
+    } 
+
+    signOn = () => {
+        this.props.history.push('cadastro');
+    }
 
     render (){
         const { load, showError, email, helperTextEmail, password, helperTextPassword } = this.state;
@@ -124,6 +148,12 @@ class LoginPage extends Component {
                         />
                         <Button variant="contained" className={classes.btn} color="primary" onClick={this.login} >
                             Entrar
+                        </Button>
+                        <Button variant="contained" className={classes.btn} color="secondary" onClick={this.signupGoogle} >
+                           Gmail
+                        </Button>
+                        <Button  className={classes.btn} color="primary" onClick={this.signOn} >
+                           Cadastre-se
                         </Button>
                 </Paper>
                 </Grid>

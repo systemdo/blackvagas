@@ -18,7 +18,6 @@ const AuthManagerUtil = {
   },
   isAuthenticated: () => {
     const auth = AuthManagerUtil.getAuthSession();
-    console.log(auth);
     if (auth !== null) return true;
     return false;
   }
