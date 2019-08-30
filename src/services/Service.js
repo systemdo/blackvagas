@@ -1,11 +1,11 @@
 import axios from 'axios';
 import AuthManagerUtil from '../utils/AuthManagerUtil';
 
-const api = axios.create({
-    baseURL: 'https://api-iddog.idwall.co'
+const Service = axios.create({
+    baseURL: 'https://blackvagasapi.herokuapp.com'
 })
 
-api.interceptors.request.use(async (config) => {
+Service.interceptors.request.use(async (config) => {
     if (!config.url.endsWith('signup')) {
         const token = AuthManagerUtil.getAuthToken();
         config.headers.Authorization = `Bearer ${token}`;
@@ -15,4 +15,4 @@ api.interceptors.request.use(async (config) => {
     return Promise.reject(error);
 });
 
-export default api;
+export default Service;

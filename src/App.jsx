@@ -9,6 +9,8 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/Login/LoginPage';
 import Header from './components/Layout/Header';
 import SignonPage from './pages/User/SignonPage';
+import CadastroEmpresaPage from './pages/Company/CadastroEmpresaPage';
+
 
 
 
@@ -46,21 +48,22 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 function App() {
   return (
-    <MuiThemeProvider theme={theme}>
-      <Header />
-      <Container fixed>
-        <BrowserRouter>
-          <Switch>
-            <Route  path="/" exact component={HomePage} />
-            <Route  path="/home" component={HomePage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/cadastro" component={SignonPage} />
-            {/*
-            <Route component={NotFound} /> */}
-          </Switch>
-        </BrowserRouter>
-      </Container>
-    </MuiThemeProvider>
+    <BrowserRouter>
+      <MuiThemeProvider theme={theme}>
+        <Header />
+        <Container fixed>
+            <Switch>
+              <Route  path="/" exact component={HomePage} />
+              <Route  path="/home" component={HomePage} />
+              <Route path="/login" component={LoginPage} />
+              <Route path="/cadastro" component={SignonPage} />
+              <Route path="/cadastrar-empresa" component={CadastroEmpresaPage} />
+              {/*
+              <Route component={NotFound} /> */}
+            </Switch>
+        </Container>
+      </MuiThemeProvider>
+    </BrowserRouter>
   );
 }
 
