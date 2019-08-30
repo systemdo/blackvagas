@@ -51,8 +51,8 @@ function App() {
       <Container fixed>
         <BrowserRouter>
           <Switch>
-            <PrivateRoute  path="/" exact component={HomePage} />
-            <PrivateRoute  path="/home" component={HomePage} />
+            <Route  path="/" exact component={HomePage} />
+            <Route  path="/home" component={HomePage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/cadastro" component={SignonPage} />
             {/*

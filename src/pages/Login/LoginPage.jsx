@@ -75,15 +75,19 @@ class LoginPage extends Component {
         this.setState({ email: e.target.value });
     };
 
+    handlePassword = e => {      
+        this.setState({ password: e.target.value });
+    };
+
     login = () => {
-        if(this.validEmail()) {
+        if(this.validEmail() && this.validPassword()) {
             this.setState({ load: true });
             this.LoginService.doSignInWithEmailAndPassword(this.state.email, this.state.password).then(result => {
                 AuthManagerUtil.setAuthSession(result.credential.accessToken);
                 AuthManagerUtil.setUserSession(result.user);
                 this.setState({ load: false});
-                this.props.history.push('home');
                 this.setState({ showError: false,  helperTextEmail: ''});
+                this.props.history.push('home');
             }).catch( error => {
                 this.setState({ load: false});
                 this.setState({ showError: true,  helperTextEmail: 'Login inválido'});
@@ -99,6 +103,7 @@ class LoginPage extends Component {
             this.props.history.push('home');
         }).catch( error => {
             this.setState({ showError: true,  helperTextEmail: 'Login inválido'});
+            console.log(error.message);
              /*var errorCode = error.code;
              var errorMessage = error.message;
              // The email of the user's account used.
@@ -141,7 +146,7 @@ class LoginPage extends Component {
                             type="password"
                             className={classes.textField}
                             value={password}
-                            onChange={this.handleEmail}
+                            onChange={this.handlePassword}
                             margin="normal"
                             variant="outlined"
                             helperText={helperTextPassword}
