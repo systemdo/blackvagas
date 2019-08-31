@@ -200,7 +200,7 @@ class CadastroEmpresaPage extends Component {
                         />
                         <TextField
                             error={showErrorEmailConfirm}
-                            label="Email"
+                            label="Confirme seu Email"
                             type="email"
                             className={classes.textField}
                             value={emailConfirm}

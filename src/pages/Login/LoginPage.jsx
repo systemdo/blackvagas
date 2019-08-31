@@ -84,7 +84,7 @@ class LoginPage extends Component {
             this.setState({ load: true });
             this.LoginService.doSignInWithEmailAndPassword(this.state.email, this.state.password).then(result => {
                 AuthManagerUtil.setAuthSession(result.credential.accessToken);
-                AuthManagerUtil.setUserSession(result.user);
+                UserManagerUtil.setUserSession(result.user);
                 this.setState({ load: false});
                 this.setState({ showError: false,  helperTextEmail: ''});
                 this.props.history.push('home');
@@ -99,7 +99,7 @@ class LoginPage extends Component {
     signupGoogle = () => {
         this.LoginService.signGoogle().then( result =>{
             AuthManagerUtil.setAuthSession(result.credential.accessToken);
-            AuthManagerUtil.setUserSession(result.user);
+            UserManagerUtil.setUserSession(result.user);
             this.props.history.push('home');
         }).catch( error => {
             this.setState({ showError: true,  helperTextEmail: 'Login inválido'});

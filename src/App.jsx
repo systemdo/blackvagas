@@ -10,6 +10,7 @@ import LoginPage from './pages/Login/LoginPage';
 import Header from './components/Layout/Header';
 import SignonPage from './pages/User/SignonPage';
 import CadastroEmpresaPage from './pages/Company/CadastroEmpresaPage';
+import JobsPage from './pages/Jobs/JobsPage';
 
 
 
@@ -42,7 +43,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
     AuthManagerUtil.isAuthenticated() === true
       ? <Component {...props} />
-      : <Redirect to='/login' />
+      : <Redirect to='/ofertas-emprego' />
   )} />
 )
 
@@ -58,6 +59,7 @@ function App() {
               <Route path="/login" component={LoginPage} />
               <Route path="/cadastro" component={SignonPage} />
               <Route path="/cadastrar-empresa" component={CadastroEmpresaPage} />
+              <PrivateRoute path="/ofertas-emprego" component={JobsPage} />
               {/*
               <Route component={NotFound} /> */}
             </Switch>

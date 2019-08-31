@@ -15,9 +15,6 @@ const styles = theme => ({
     btn:{
         width:'100%'
     },
-    grid: {
-        height: '100vh'
-    },
     paper:{
         width:'100%',
         padding: 16
@@ -39,11 +36,8 @@ class HomePage extends Component {
            helperTextPassword: '',
            password:''
         }
-      }
+    }
     
-    
-   
-   
     render (){
         const { load} = this.state;
         const { classes } = this.props
