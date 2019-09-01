@@ -35,7 +35,6 @@ class JobsPage extends Component {
     render (){
         const { load, jobs} = this.state;
         const { classes } = this.props
-        console.log(jobs);
         return (
             <Grid container justify="center" alignContent="center" spacing={1} className={classes.grid}>
                 <LoadDialog action={load} />

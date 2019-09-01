@@ -18,10 +18,11 @@ const styles = theme => ({
         width:'100%'
     },
     btn:{
-        width:'100%'
+        width:'100%',
+        margin: 3,
     },
     grid: {
-        height: '100vh'
+        height: '90vh'
     },
     paper:{
         width:'100%',
@@ -30,6 +31,12 @@ const styles = theme => ({
     titulo: {
         textAlign:'center',
         width:'100%',
+    },
+    error: {
+        display: 'flex',
+        justifyContent: 'center',
+        color: 'red',
+        border: '1px solid red'
     }
 });
 
@@ -38,11 +45,14 @@ class LoginPage extends Component {
         super(props);
         this.state = {
            email: '',
-           showError: false,
-           load: false,
            helperTextEmail: '',
+           showError: false,
+           textError: '',
+           load: false,
            helperTextPassword: '',
-           password:''
+           password:'',
+           showErrorEmail: false,
+           showErrorPassword: false
         }
         this.LoginService = new LoginService();
       }
@@ -50,12 +60,12 @@ class LoginPage extends Component {
     
     validEmail = () => {
         const { email } = this.state;
-        this.setState({ showError: false, helperTextEmail: ''});
+        this.setState({ showErrorEmail: false, helperTextEmail: ''});
         if(email === ''){
-            this.setState({ showError: true,  helperTextEmail: 'Email não pode ser vazio'});
+            this.setState({ showErrorEmail: true,  helperTextEmail: 'Email não pode ser vazio'});
             return false;
         }else if(!validateEmail(email)){
-            this.setState({ showError: true,  helperTextEmail: 'Email inválido'});
+            this.setState({ showErrorEmail: true,  helperTextEmail: 'Email inválido'});
             return false;
         }
         return true;
@@ -63,9 +73,9 @@ class LoginPage extends Component {
 
     validPassword = () => {
         const { password } = this.state;
-        this.setState({ showError: false, helperTextPassword: ''});
+        this.setState({ showErrorPassword: false, helperTextPassword: ''});
         if(password === ''){
-            this.setState({ showError: true,  helperTextPassword: 'Senha não pode ser vazio'});
+            this.setState({ showErrorPassword: true,  helperTextPassword: 'Senha não pode ser vazia'});
             return false;
         }
         return true;
@@ -81,16 +91,18 @@ class LoginPage extends Component {
 
     login = () => {
         if(this.validEmail() && this.validPassword()) {
-            this.setState({ load: true });
+            this.setState({ load: true, showError: false });
             this.LoginService.doSignInWithEmailAndPassword(this.state.email, this.state.password).then(result => {
-                AuthManagerUtil.setAuthSession(result.credential.accessToken);
+                
+               // AuthManagerUtil.setAuthSession(result.getToken());
                 UserManagerUtil.setUserSession(result.user);
                 this.setState({ load: false});
-                this.setState({ showError: false,  helperTextEmail: ''});
-                this.props.history.push('home');
+                this.setState({ showError: false,  textError: ''});
+                this.props.history.push('ofertas-emprego');
             }).catch( error => {
+                console.log(error);
                 this.setState({ load: false});
-                this.setState({ showError: true,  helperTextEmail: 'Login inválido'});
+                this.setState({ showError: true,  textError: 'Login inválido'});
             });
         }
        
@@ -100,10 +112,10 @@ class LoginPage extends Component {
         this.LoginService.signGoogle().then( result =>{
             AuthManagerUtil.setAuthSession(result.credential.accessToken);
             UserManagerUtil.setUserSession(result.user);
-            this.props.history.push('home');
+            this.props.history.push('ofertas-emprego');
         }).catch( error => {
-            this.setState({ showError: true,  helperTextEmail: 'Login inválido'});
-            console.log(error.message);
+            this.setState({ showError: true,  textError: 'Login inválido'});
+            
              /*var errorCode = error.code;
              var errorMessage = error.message;
              // The email of the user's account used.
@@ -118,8 +130,12 @@ class LoginPage extends Component {
         this.props.history.push('cadastro');
     }
 
+    signOnCompany = () => {
+        this.props.history.push('/cadastrar-empresa');
+    }
+
     render (){
-        const { load, showError, email, helperTextEmail, password, helperTextPassword } = this.state;
+        const { load, showError, email, helperTextEmail, password, helperTextPassword, textError, showErrorEmail, showErrorPassword } = this.state;
         const { classes } = this.props
         return (
             <Grid container justify="center" alignContent="center" spacing={1} className={classes.grid}>
@@ -129,8 +145,11 @@ class LoginPage extends Component {
                         <Typography component='h4' gutterBottom className={classes.titulo}>
                             Login
                         </Typography>
+                        <Typography component='span' gutterBottom className={classes.error} style={{ display: showError? 'flex': 'none'}}>
+                           { textError }
+                        </Typography>
                         <TextField
-                        error={showError}
+                            error={showErrorEmail}
                             label="Email"
                             type="email"
                             className={classes.textField}
@@ -141,7 +160,7 @@ class LoginPage extends Component {
                             helperText={helperTextEmail}
                         />
                          <TextField
-                        error={showError}
+                            error={showErrorPassword}
                             label="Senha"
                             type="password"
                             className={classes.textField}
@@ -155,10 +174,13 @@ class LoginPage extends Component {
                             Entrar
                         </Button>
                         <Button variant="contained" className={classes.btn} color="secondary" onClick={this.signupGoogle} >
-                           Gmail
+                           Login com Gmail
                         </Button>
-                        <Button  className={classes.btn} color="primary" onClick={this.signOn} >
+                        <Button  variant="outlined" className={classes.btn} color="primary" onClick={this.signOn} >
                            Cadastre-se
+                        </Button>
+                        <Button  variant="outlined" className={classes.btn} color="secondary" onClick={this.signOnCompany} >
+                           Para empresas
                         </Button>
                 </Paper>
                 </Grid>

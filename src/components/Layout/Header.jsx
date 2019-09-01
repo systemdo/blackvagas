@@ -13,17 +13,11 @@ const Header = ()  =>  {
   return (
     <AppBar position="static">
     <Toolbar>
-      <IconButton edge="start" color="inherit" aria-label="menu">
-        <MenuIcon />
-      </IconButton>
-      <Link component={LinkRouter} to="/cadastrar-empresa" style={{color: '#fff'}}>
+      <Link component={LinkRouter} to="/ofertas-emprego" style={{color: '#fff'}}>
         <Typography variant="h6">
           BlackVagas
         </Typography>
       </Link>
-      <Button component={LinkRouter} to="/cadastrar-empresa" style={{color: '#fff'}}>
-        Cadastro Empresa
-      </Button>
     </Toolbar>
   </AppBar>
   );

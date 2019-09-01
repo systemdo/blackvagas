@@ -136,12 +136,11 @@ class CadastroEmpresaPage extends Component {
             this.setState({ load: true });
             const company = { name: this.state.name, email: this.state.email, adress: ''}; 
             this.CompanyService.sendCompany(JSON.stringify(company)).then(res => {
-                console.log(res);
                 this.setState({ load: false});
-                this.props.history.push('home');
+                this.props.history.push('ofertas-emprego');
             }).catch( error => {
                 this.setState({ load: false});
-              });
+            });
         }
        
     };

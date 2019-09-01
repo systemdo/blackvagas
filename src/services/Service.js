@@ -7,9 +7,9 @@ const Service = axios.create({
 
 Service.interceptors.request.use(async (config) => {
     if (!config.url.endsWith('signup')) {
-        //const token = AuthManagerUtil.getAuthToken();
+        const token = AuthManagerUtil.getAuthToken();
         config.headers['Content-Type'] ='application/json';
-       // config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
 },(error) => {

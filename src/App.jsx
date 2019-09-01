@@ -39,11 +39,15 @@ const theme = createMuiTheme({
   }
 });
 
+const styleContainer = {
+  padding: '16px'
+}
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
     AuthManagerUtil.isAuthenticated() === true
       ? <Component {...props} />
-      : <Redirect to='/ofertas-emprego' />
+      : <Redirect to='/login' />
   )} />
 )
 
@@ -52,7 +56,7 @@ function App() {
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
         <Header />
-        <Container fixed>
+        <Container fixed style={styleContainer}>
             <Switch>
               <Route  path="/" exact component={HomePage} />
               <Route  path="/home" component={HomePage} />
