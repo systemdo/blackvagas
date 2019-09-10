@@ -55,8 +55,6 @@ class HomePage extends Component {
                             <Button component={LinkRouter} to="/login" variant="contained" color="primary" >
                                 Login
                             </Button>
-                        
-                       
                         </Grid>
                         <Grid container item xs={12} md={12} >
                             Se deseja fazer Cadastro:  <br/>
