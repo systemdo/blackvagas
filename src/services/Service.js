@@ -2,7 +2,7 @@ import axios from 'axios';
 import AuthManagerUtil from '../utils/AuthManagerUtil';
 
 const Service = axios.create({
-    baseURL: 'https://blackvagasapi.herokuapp.com/api/v1/'
+    
 })
 
 Service.interceptors.request.use(async (config) => {
